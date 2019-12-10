@@ -53,6 +53,8 @@ public class FXMLController implements Initializable {
             + "collection-A";
     String collectionRootB = collectionRootAB + File.separator
             + "collection-B";
+    
+    private ObservableList<MediaItem> copied = FXCollections.observableArrayList();
 
     @FXML
     private void textInputDialog(ActionEvent event){
@@ -94,7 +96,7 @@ public class FXMLController implements Initializable {
         {
             if(event.getCode()==KeyCode.X)
             {
-                doCut();
+                cutSelection();
                 System.out.println("cut");
             }
             
@@ -114,7 +116,10 @@ public class FXMLController implements Initializable {
         addDragListener(tableView1);
         addDragListener(tableView2);
         addDragListener(tableView3);
+        
         tableView1.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableView2.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableView3.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableView1.getSelectionModel().setCellSelectionEnabled(false);
         addSelectListener(tableView2);
         tableView1.setEditable(true);
@@ -191,12 +196,6 @@ public class FXMLController implements Initializable {
     @FXML
     private void openABIn1(ActionEvent event) {
         open(1, collectionRootAB);
-    }
-    @FXML
-    private void cut(ActionEvent event) {
-        
-        doCut();
- 
     }
 
     @FXML
@@ -294,7 +293,7 @@ public class FXMLController implements Initializable {
             row.setOnDragDetected(event -> {
                 if (! row.isEmpty()) {
                     Integer index = row.getIndex();
-                    Dragboard db = row.startDragAndDrop(TransferMode.MOVE);
+                    Dragboard db = row.startDragAndDrop(TransferMode.ANY);
                     db.setDragView(row.snapshot(null, null));
                     ClipboardContent cc = new ClipboardContent();
                     cc.put(SERIALIZED_MIME_TYPE, index);
@@ -360,8 +359,71 @@ public class FXMLController implements Initializable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void doCut() {
-       TableView tableInFocus = getTableInFocus();
-        // do my cut thing here
+    @FXML
+    private void copy(ActionEvent event){
+        //ObservableList<MediaItem> selected = tableView1.getSelectionModel().getSelectedItems();
+        //ObservableList<MediaItem> selected2 = tableView2.getSelectionModel().getSelectedItems();
+        copySelection();
+        /*String copyThese = selected.toString();
+        
+        content.putFiles(selected);
+        System.out.println(content);
+        clipboard.setContent(content);*/
+        
+        
+    }
+    
+    private void copySelection(){
+        ObservableList<MediaItem> selected = tableView1.getSelectionModel().getSelectedItems();
+        ObservableList<MediaItem> selected2 = tableView2.getSelectionModel().getSelectedItems();
+        try{
+            ObservableList<MediaItem> result = FXCollections.observableArrayList(selected);
+            result.addAll(selected2);
+            System.out.println(result);
+            copied.clear();
+            copied.addAll(result);
+        }catch(NullPointerException e){
+            
+        }
+    }
+    
+    private void cutSelection(){
+        ObservableList<MediaItem> selected = tableView3.getSelectionModel().getSelectedItems();
+        try{
+            ObservableList<MediaItem> table3 = tableView3.getItems();
+            copied.clear();
+            copied.addAll(selected);
+            ObservableList<MediaItem> tempCopy = FXCollections.observableArrayList();
+            for(MediaItem item : table3){
+                if(!selected.contains(item)){
+                    tempCopy.add(item);
+                }
+            }
+            tableView3.setItems(tempCopy);
+        }catch(NullPointerException e){
+            
+        }
+    }
+    
+    @FXML
+    private void cut(ActionEvent event){
+        //ObservableList<MediaItem> selected = tableView3.getSelectionModel().getSelectedItems();
+        cutSelection();
+    }
+    
+    @FXML
+    private void paste(ActionEvent event){
+        if(tableView3==null){
+            System.out.println(copied);
+            tableView3.setItems(copied);
+        }else{
+            ObservableList<MediaItem> table3 = tableView3.getItems();
+            table3.addAll(copied);
+        }
+        
+        /*if(!clipboard.hasContent(DataFormat.PLAIN_TEXT)){
+            ObservableValue<MediaItem> something = FXCollections.ObservableValue(content);
+            tableView3.setItems(something);
+        }*/
     }
 }
