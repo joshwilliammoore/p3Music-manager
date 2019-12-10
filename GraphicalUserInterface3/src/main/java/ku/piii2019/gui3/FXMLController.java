@@ -56,6 +56,10 @@ public class FXMLController implements Initializable {
     
     private ObservableList<MediaItem> copied = FXCollections.observableArrayList();
 
+    private void savePlaylist(){
+        
+    }
+    
     @FXML
     private void textInputDialog(ActionEvent event){
         TextInputDialog dialog = new TextInputDialog();
