@@ -86,9 +86,9 @@
                 <items>
                     <MenuItem text="Swap" onAction="#swap" />                    
                     <MenuItem text="Show Missing Items" onAction="#showMissingItems" />                    
-                    <MenuItem text="Copy"/>
+                    <MenuItem text="Copy" onAction="#copy"/>
                     <MenuItem text="Cut" onAction="#cut" />
-                    <MenuItem text="Paste"/>
+                    <MenuItem text="Paste" onAction="#paste"/>
                 </items>
             </Menu>
             <Menu text="Help">
