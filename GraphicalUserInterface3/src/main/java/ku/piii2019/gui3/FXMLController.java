@@ -1,7 +1,11 @@
 package ku.piii2019.gui3;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -33,11 +38,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import ku.piii2019.bl3.*;
 
 public class FXMLController implements Initializable {
 
-    
+    @FXML
+    private Node rootNode;
     @FXML
     private Label label;
     @FXML
@@ -55,9 +62,43 @@ public class FXMLController implements Initializable {
             + "collection-B";
     
     private ObservableList<MediaItem> copied = FXCollections.observableArrayList();
+    
+    @FXML
+    private void saveTable3AsPlaylist(ActionEvent event) {
+        try{
+            savePlayList(new ArrayList<>(tableView3.getItems()));
+        }catch(NullPointerException e){
+            System.out.println("Error");
+        }
+    }
+    
+    private void savePlayList(List<MediaItem> mediaItems){
+        FileChooser fc = new FileChooser();
+        fc.setTitle("save as Playlist");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("M3U", "*.m3u"));
+        File newFile = fc.showSaveDialog(rootNode.getScene().getWindow());
 
-    private void savePlaylist(){
-        
+        if (newFile != null) {
+            List<String> fileLines
+                    = new PlayListServiceM3U().getPlayList(mediaItems, true);
+
+            Charset charset = Charset.forName("US-ASCII");
+            try (BufferedWriter writer = Files.newBufferedWriter(newFile.toPath(), charset)) {
+                /*for (int i = 0; i < fileLines.size(); i++) {
+                    writer.append(fileLines.get(i));*/
+                int i=0;
+                for(String mi : fileLines){
+                    i++;
+                    writer.append(mi);
+                    if (i < fileLines.size() - 1) {
+                        writer.newLine();
+                    }
+                }
+            } catch (IOException x) {
+                System.err.format("IOException: %s%n", x);
+                System.out.println("Somwthing");
+            }
+        }
     }
     
     @FXML
