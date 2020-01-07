@@ -14,6 +14,7 @@ public class MediaItem {
     private String absolutePath;
     private String title;
     private String album;
+    private int duration;
 
     public String getTitle() {
         return title;
@@ -34,6 +35,15 @@ public class MediaItem {
 
     public MediaItem setAbsolutePath(String absolutePath) {
         this.absolutePath = absolutePath;
+        return this;
+    }
+    
+    public String getDuration() {
+        return ""+duration;
+    }
+
+    public MediaItem setDuration(int duration) {
+        this.duration = duration;
         return this;
     }
 
