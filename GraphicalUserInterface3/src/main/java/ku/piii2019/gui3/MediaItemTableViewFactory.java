@@ -60,6 +60,11 @@ public class MediaItemTableViewFactory {
                 .setMinWidth(100)
                 .setProperty("artist")
         );
+        
+        myColumnInfoList.add(new MediaItemColumnInfo().setHeading("Duration")
+                .setMinWidth(50)
+                .setProperty("duration")
+        );
        
         return myColumnInfoList;
         
