@@ -64,6 +64,40 @@ public class FXMLController implements Initializable {
     private ObservableList<MediaItem> copied = FXCollections.observableArrayList();
     
     @FXML
+    private void findSelectedArtist(ActionEvent event){
+        ObservableList<MediaItem> selected = tableView1.getSelectionModel().getSelectedItems();
+        ObservableList<MediaItem> selected2 = tableView2.getSelectionModel().getSelectedItems();
+        ObservableList<MediaItem> selected3 = tableView3.getSelectionModel().getSelectedItems();
+        String searchItem = "";
+        if(!selected.isEmpty()){
+            for(MediaItem item : selected){
+                    searchItem = item.getArtist();
+            }
+        }else if(!selected2.isEmpty()){
+            for(MediaItem item : selected2){
+                    searchItem = item.getArtist();
+            }
+        }else{
+            for(MediaItem item : selected3){
+                    searchItem = item.getArtist();
+            }
+        }
+        Set<MediaItem> table1 = new HashSet<>(tableView1.getItems());
+        
+        Set<MediaItem> result = new SimpleSearch().findArtist(searchItem,table1);
+        ObservableList<MediaItem> artistSongs = FXCollections.observableArrayList(result);
+        System.out.println(table1);
+        System.out.println(searchItem);
+        
+        if(tableView3 == null){
+            tableView3.setItems(artistSongs);
+        }else{
+            ObservableList<MediaItem> table3 = tableView3.getItems();
+            table3.addAll(artistSongs);
+        }
+    }
+    
+    @FXML
     private void saveTable3AsPlaylist(ActionEvent event) {
         try{
             savePlayList(new ArrayList<>(tableView3.getItems()));
