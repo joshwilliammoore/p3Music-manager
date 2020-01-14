@@ -81,6 +81,7 @@
                     <MenuItem text="Open Collection B" onAction="#openBIn3" />
                     <MenuItem text="Open Collections A and B" onAction="#openABIn3" />
                     <MenuItem text="Save as Playlist" onAction="#saveTable3AsPlaylist" />
+                    <MenuItem text="Get Tracks by Artist" onAction="#findSelectedArtist"/>
                 </items>
             </Menu>
             <Menu text="Edit">
