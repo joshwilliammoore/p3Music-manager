@@ -14,6 +14,9 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -80,6 +83,37 @@ public class FileServiceImpl implements FileService {
     
     public static void copyFiles(File from, File to) throws IOException{
         String files[] = from.list();
+        if(from.isDirectory()){
+            if(!to.exists()){
+                to.mkdir();
+                //System.out.println("Directory created :: "+to);
+            }
+                
+            //System.out.println(files);
+            for(String file:files){
+                File srcFile = new File(from, file);
+                File destFile = new File(to, file);
+                    
+                copyFiles(srcFile, destFile);
+            }
+        }else{
+            Files.copy(from.toPath(),to.toPath(),StandardCopyOption.COPY_ATTRIBUTES);
+            //System.out.println("File copied :: "+to);
+        }
+    }
+    
+    public static void copyFilesByOrder(File from, File to) throws IOException{
+        String tempFiles[] = from.list();
+        List<String> tempList = new ArrayList<>();
+        for(String file: tempFiles){
+            tempList.add(file);
+        }
+        Collections.sort(tempList);
+        String[] files = new String[tempList.size()];
+        for(int i=0;i<tempList.size();i++){
+            files[i]=tempList.get(i);
+        }
+        
         if(from.isDirectory()){
             if(!to.exists()){
                 to.mkdir();
