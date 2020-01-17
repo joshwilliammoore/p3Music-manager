@@ -27,7 +27,7 @@ public class MainApp {
         //System.out.println("hello world!");
         
         //SAVE PLAYLIST HERE
-        String path = "";
+        /*String path = "";
         String artist = "";
         for(int i=0;i<args.length;i++){
             if(i==0){
@@ -61,11 +61,11 @@ public class MainApp {
         
         
         //COPY FILES TO NEW FOLDER AND ARRANGE ORDER BY ARTIST AND ALBUM
-        /*FileServiceImpl f = new FileServiceImpl();
+        FileServiceImpl f = new FileServiceImpl();
         DuplicateFinder df = new DuplicateFindFromFilename();
         File from = new File(args[0]);
         File to = new File(args[1]);
-        f.copyFilesByOrder(from, to);*/
+        f.copyFilesByOrder(from, to);
         
         //
         
