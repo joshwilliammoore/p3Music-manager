@@ -18,6 +18,8 @@ public class ApproxSearch implements SearchService{
     public Set<MediaItem> find(String thisSearchTerm, Set<MediaItem> inhere) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+    public Set<MediaItem> findArtist(String thisSearchTerm, Set<MediaItem> inhere) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
