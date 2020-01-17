@@ -5,12 +5,14 @@
  */
 package ku.piii2019.bl3;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashSet;
 import java.util.List;
@@ -47,7 +49,7 @@ public class FileServiceImpl implements FileService {
         return items;
     }
 
-
+    
 
     @Override
     public Set<MediaItem> getItemsToRemove(Set<Set<MediaItem>> duplicates) {
@@ -74,6 +76,27 @@ public class FileServiceImpl implements FileService {
             }
         }
         return retVal;
+    }
+    
+    public static void copyFiles(File from, File to) throws IOException{
+        String files[] = from.list();
+        if(from.isDirectory()){
+            if(!to.exists()){
+                to.mkdir();
+                //System.out.println("Directory created :: "+to);
+            }
+                
+            //System.out.println(files);
+            for(String file:files){
+                File srcFile = new File(from, file);
+                File destFile = new File(to, file);
+                    
+                copyFiles(srcFile, destFile);
+            }
+        }else{
+            Files.copy(from.toPath(),to.toPath(),StandardCopyOption.COPY_ATTRIBUTES);
+            //System.out.println("File copied :: "+to);
+        }
     }
 
 
