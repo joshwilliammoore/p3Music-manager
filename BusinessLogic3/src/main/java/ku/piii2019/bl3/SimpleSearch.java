@@ -46,7 +46,7 @@ public class SimpleSearch implements SearchService{
         return result;
     }
     
-    
+    @Override
     public Set<MediaItem> findArtist(String thisSearchTerm, Set<MediaItem> inhere) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Set<MediaItem> result = new HashSet<>();
@@ -57,7 +57,9 @@ public class SimpleSearch implements SearchService{
                 break;
             }*/
             for(MediaItem item : inhere){
+                System.out.println(item.getArtist()+" | "+thisSearchTerm);
                 if(item.getArtist().toLowerCase().contains(thisSearchTerm.toLowerCase())){
+                    System.out.println(item.getArtist()+thisSearchTerm);
                     result.add(item);
                 }
                 /*if(item.getArtist().contains(thisSearchTerm)){
