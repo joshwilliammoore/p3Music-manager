@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,6 +63,25 @@ public class FXMLController implements Initializable {
             + "collection-B";
     
     private ObservableList<MediaItem> copied = FXCollections.observableArrayList();
+    
+    @FXML
+    private void saveTable3toOutput(ActionEvent event){
+        ObservableList<MediaItem> selected3 = tableView3.getItems();
+        Set<MediaItem> list = new HashSet<>(selected3);
+        String cwd = System.getProperty("user.home");
+        String output = cwd + File.separator + "Documents" + File.separator + "Temp";
+        File pOutput = new File(output);
+        FileServiceImpl fs = new FileServiceImpl();
+        for(MediaItem m : list) {
+            try {
+                File pInput = new File(m.getAbsolutePath());
+                fs.copyFiles(pInput,pOutput);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
     @FXML
     private void findSelectedArtist(ActionEvent event){
