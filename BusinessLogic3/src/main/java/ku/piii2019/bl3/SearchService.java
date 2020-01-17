@@ -14,6 +14,6 @@ import java.util.Set;
 public interface SearchService {
     
     Set<MediaItem> find(String  thisSearchTerm, Set<MediaItem> inhere);
-    
+    Set<MediaItem> findArtist(String thisSearchTerm, Set<MediaItem> inhere);
     
 }
