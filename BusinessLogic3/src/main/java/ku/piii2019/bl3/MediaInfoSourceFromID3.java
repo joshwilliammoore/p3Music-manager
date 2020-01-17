@@ -29,7 +29,7 @@ public class MediaInfoSourceFromID3 implements MediaInfoSource {
             m.setTitle(tag.getTitle());
             m.setAlbum(tag.getAlbum());
             m.setArtist(tag.getArtist());
-
+            m.setDuration((int)Math.ceil(mp3.getLengthInSeconds()));
         } catch (Exception ex) {
             Logger.getLogger(MediaInfoSourceFromID3.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
