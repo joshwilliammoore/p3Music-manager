@@ -5,11 +5,14 @@
  */
 package ku.piii2019.bl3;
 
+import java.util.Comparator;
+import java.util.Collections;
+import org.apache.commons.lang3.builder.*;
 /**
  *
  * @author James
  */
-public class MediaItem {
+public class MediaItem implements Comparable<MediaItem> {
 
     private String absolutePath;
     private String title;
@@ -78,5 +81,19 @@ public class MediaItem {
     public MediaItem setArtist(String artist) {
         this.artist = artist;
         return this;
+    }
+
+    @Override
+    public int compareTo(MediaItem mi) {
+        if(mi==null){
+            return -1;
+        }
+        CompareToBuilder builder = new CompareToBuilder();
+        
+        return builder
+                .append(this.getArtist(), mi.getArtist())
+                .append(this.getAlbum(), mi.getAlbum())
+                .toComparison();
+        //return 0;
     }
 }
