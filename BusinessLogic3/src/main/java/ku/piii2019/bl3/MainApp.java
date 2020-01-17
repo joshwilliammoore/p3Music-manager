@@ -61,17 +61,17 @@ public class MainApp {
         
         
         //COPY FILES TO NEW FOLDER AND ARRANGE ORDER BY ARTIST AND ALBUM
-        FileServiceImpl f = new FileServiceImpl();
+        /*FileServiceImpl f = new FileServiceImpl();
         DuplicateFinder df = new DuplicateFindFromFilename();
         File from = new File(args[0]);
         File to = new File(args[1]);
-        f.copyFilesByOrder(from, to);
+        f.copyFilesByOrder(from, to);*/
         
         //
         
         //COPY FILES TO NEW FOLDER
         /////////////////////////////////////////////////
-        /*FileServiceImpl f = new FileServiceImpl();
+        FileServiceImpl f = new FileServiceImpl();
         DuplicateFinder df = new DuplicateFindFromFilename();
         File from = new File(args[0]);
         File to = new File(args[1]);
@@ -87,7 +87,7 @@ public class MainApp {
         for(MediaItem i : temp2){
             System.out.println("item " + Paths.get(i.getAbsolutePath()).getFileName());
         }
-        f.removeFiles(temp2);*/
+        f.removeFiles(temp2);
         //////////////////////////////////////////////////////
         
     }
