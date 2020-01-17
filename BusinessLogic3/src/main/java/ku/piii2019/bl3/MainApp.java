@@ -24,86 +24,71 @@ import java.util.Set;
  */
 public class MainApp {
     public static void main(String[] args) throws IOException, Exception {
-        /*System.out.println("hello world!");
-        Set<MediaItem> list = new HashSet<>();
-        FileService f = new FileServiceImpl();
-        final String inputPath =  ".." +  File.separator + 
-                                                  "test_folders";
-        Set<MediaItem> items = f.getAllMediaItems(args[0]);
-        for(MediaItem m : items) {
-            //System.out.println("item " + Paths.get(m.getAbsolutePath()).getFileName());
-            list.add(m);
-            System.out.println(m.getAbsolutePath());
-        }
-        for(MediaItem d:list){
-            System.out.println(d.getArtist());
-        }
-        System.out.println("/////////////////////////////////////////");
-        System.out.println(args[1]);
-        Set<MediaItem> temp = new SimpleSearch().findArtist(args[1], list);
-        List<MediaItem> result = new ArrayList<>();
-        for(MediaItem i:temp){
-            System.out.println(i.getAbsolutePath());
-            if(!result.contains(i)){
-                result.add(i);
-                System.out.println(i.getAbsolutePath());
+        //System.out.println("hello world!");
+        
+        //SAVE PLAYLIST HERE
+        String path = "";
+        String artist = "";
+        for(int i=0;i<args.length;i++){
+            if(i==0){
+                path = args[i];
             }else{
-                System.out.println(i.getAbsolutePath());
+                if(i==args.length){
+                    artist=artist+args[i];
+                }else{
+                    artist=artist+args[i]+" ";
+                }
             }
         }
-        //SAVE PLAYLIST HERE
-        File path = new File(args[2]);
+        File filePath = new File(path);
+        FileServiceImpl f = new FileServiceImpl();
+        MediaItem m = new MediaItem();
+        Set<MediaItem> all = f.getAllMediaItems(path);
+
+        SearchService s = new SimpleSearch();
+        Set<MediaItem> itemsByArtist = s.findArtist(artist,all);
+        for(MediaItem i:itemsByArtist){
+            System.out.println("itemsByArtist"+i);
+        }
+        List<MediaItem> items = new ArrayList<>(itemsByArtist);
+        for(MediaItem a:items){
+            System.out.println("Items"+m);
+        }
+        List<String> fileLines = new PlayListServiceM3U().getPlayList(items, true);
+        /*File path = new File(args[1]);
         savePlayList(result, path);*/
         
-        //COPY FILES TO NEW FOLDER
-        FileServiceImpl f = new FileServiceImpl();
+        
+        
+        //COPY FILES TO NEW FOLDER AND ARRANGE ORDER BY ARTIST AND ALBUM
+        /*FileServiceImpl f = new FileServiceImpl();
         DuplicateFinder df = new DuplicateFindFromFilename();
-        /*File from = new File(args[0]);
+        File from = new File(args[0]);
         File to = new File(args[1]);
-        f.copyFiles(from, to);*/
+        f.copyFilesByOrder(from, to);*/
+        
+        //
+        
+        //COPY FILES TO NEW FOLDER
+        /////////////////////////////////////////////////
+        /*FileServiceImpl f = new FileServiceImpl();
+        DuplicateFinder df = new DuplicateFindFromFilename();
+        File from = new File(args[0]);
+        File to = new File(args[1]);
+        f.copyFiles(from, to);
         
         Set<MediaItem> all = f.getAllMediaItems(args[1]);
-        /*for(MediaItem a: all){
+        for(MediaItem a: all){
             System.out.println(Paths.get(a.getAbsolutePath()).getFileName());
-        }*/
+        }
         Set<Set<MediaItem>> temp = df.getAllDuplicates(all);
         System.out.println(temp);
         Set<MediaItem> temp2 = f.getItemsToRemove(temp);
         for(MediaItem i : temp2){
             System.out.println("item " + Paths.get(i.getAbsolutePath()).getFileName());
         }
-        f.removeFiles(temp2);
-        
-        /*FileService f = new FileServiceImpl();
-        MediaInfoSource ms = new MediaInfoSourceFromID3();
-        DuplicateFinder df = new DuplicateFindFromID3();
-        Set<MediaItem> items = f.getAllMediaItems(args[1]);
-        for(MediaItem item:items){
-            ms.addMediaInfo(item);
-            df.getDuplicates(items, item);
-        }*/
-        
-        /*for(String i:args){
-            System.out.println(i);
-        }*/
-        
-        /*        int a = 0;
-        String input = "";
-        String output = "";
-        for(String i:args){
-            if(a==0){
-                input = i;
-            }else if(a==1){
-                output = i;
-            }
-            a++;
-        }*/
-        /*String cwd = System.getProperty("user.dir");
-            System.out.println(cwd);
-            input = Paths.get(cwd,
-                    "..",
-                    input).toString();
-        System.out.println(input);*/
+        f.removeFiles(temp2);*/
+        //////////////////////////////////////////////////////
         
     }
         
